@@ -6,12 +6,13 @@ import userver
 GLOBALS = {"debug": 0, "shutdown": 0}
 DB = {}
 
+
 def my_post_handler(url, data):
     code, hdrs = 404, {}
 
     print("RECEIVED A POST! with data: ", data)
     d = json.loads(data)
-    
+
     if url == "/users":
         for k, v in d.items():
             DB[k] = v
@@ -38,7 +39,7 @@ def my_get_handler(url, data):
             txt = f.readline()
         return 200, txt, {}
 
-    fmap= {"/users": users_fun,"/services":services_fun,"/uptime":uptime_fun  }
+    fmap = {"/users": users_fun, "/services": services_fun, "/uptime": uptime_fun}
 
     f = fmap.get(url.strip())
     if f:
@@ -61,8 +62,10 @@ def my_patch_handler(url, data):
 
     return code, "", {}
 
+
 def my_head_handler(url, data):
     return 200, "nothing", {}
+
 
 def my_delete_handler(url, data):
     base, _, remainder = url.rpartition("/")
@@ -82,17 +85,17 @@ async def my_handle_client(reader, writer):
         "head": my_head_handler,
         "delete": my_delete_handler,
     }
-    print('New client connected...')
+    print("New client connected...")
     await userver.handle_client(reader, writer, handlers)
     await userver.finalise_client(reader, writer)
     print("exit...")
 
+
 async def main():
     loop.create_task(asyncio.start_server(my_handle_client, "0.0.0.0", 7777))
     await asyncio.sleep(120)  # serve for 120 seconds
-    #loop.run_forever()
+    # loop.run_forever()
 
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
-
