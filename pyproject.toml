@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "micro_http_server"
-version = "0.1.0"
+version = "0.1.1"
 description = "a simple HTTP server using functional principles for Micropython and CPython"
 readme = "README.md"
 authors = [{ name = "Topi Kanerva" }]
