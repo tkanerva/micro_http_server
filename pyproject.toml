@@ -1,0 +1,23 @@
+[project]
+name = "micro-http-server"
+version = "0.1.0"
+description = "a simple HTTP server using functional principles for Micropython and CPython"
+readme = "README.md"
+authors = [{ name = "Topi Kanerva" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: MicroPython",
+]
+keywords = ["httpserver", "functional", "asyncio"]
+dependencies = [
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = ["black"]
+
+[project.urls]
+Homepage = "https://github.com/tkanerva/micro_http_server"
