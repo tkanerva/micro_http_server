@@ -137,7 +137,21 @@ async def produce_response(reader, writer, handlerfun, request="", headers=[]):
         code, txt, hdrs = 500, "", {}
 
     writer.write(create_resp_headers(txt, code, hdrs).encode())
-    writer.write(txt.encode())
+    await writer.drain()  # block until the current buffers have been flushed to socket
+    g = _chunk_bytes(txt)
+    if isinstance(txt, bytes):
+        for chunk in g:
+            writer.write(chunk)
+            await writer.drain()
+    else:
+        for chunk in g:
+            writer.write(txt.encode())
+            await writer.drain()
+
+
+def _chunk_bytes(buf, size=32768):
+    for i in range(0, len(buf), size):
+        yield buf[i : i + size]
 
 
 async def _get_payload(reader, clen):
